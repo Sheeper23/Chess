@@ -2,6 +2,9 @@
 
 import java.util.*;
 import java.awt.image.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,7 +37,12 @@ public class ChessPanel extends JPanel {
 			for (int j = 0; j < board.getBoard()[0].length; j++) {
 				JLabel pane;
 				if (board.getBoard()[i][j] != null) {
-					pane = new JLabel(new ImageIcon(new ImageIcon(board.getBoard()[i][j].getColor() + board.getBoard()[i][j].toString() + ".png").getImage().getScaledInstance(DIMENS/8, DIMENS/8, Image.SCALE_SMOOTH)));
+					try {
+						pane = new JLabel(new ImageIcon(ImageIO.read(getClass().getClassLoader().getResourceAsStream(board.getBoard()[i][j].getColor() + board.getBoard()[i][j].toString() + ".png")).getScaledInstance(DIMENS/8, DIMENS/8, Image.SCALE_SMOOTH)));
+					} catch (IOException e) {
+						pane = new JLabel();
+						e.printStackTrace();
+					}
 				}
 				else {
 					pane = new JLabel();
